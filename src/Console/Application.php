@@ -23,6 +23,7 @@ use Composer\Util\ErrorHandler;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Dotenv\Dotenv;
 
 class Application extends BaseApplication
 {
@@ -34,6 +35,8 @@ class Application extends BaseApplication
     public function __construct()
     {
         parent::__construct('Satis', Satis::VERSION);
+        $dotenv = Dotenv::create(__DIR__  . '/../../');
+        $dotenv->load();
     }
 
     public function doRun(InputInterface $input, OutputInterface $output): int

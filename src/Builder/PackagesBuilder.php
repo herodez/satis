@@ -16,6 +16,7 @@ namespace Composer\Satis\Builder;
 use Composer\Json\JsonFile;
 use Composer\Package\Dumper\ArrayDumper;
 use Composer\Package\PackageInterface;
+use GuzzleHttp\Client;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class PackagesBuilder extends Builder
@@ -74,6 +75,7 @@ class PackagesBuilder extends Builder
             $repo = $this->dumpPackageIncludeJson($packagesByName, $this->includeFileName);
         }
         
+        $this->sendUpdateRepositoryInformation($repo);
     }
 
     private function findReplacements(array $packages, string $replaced): array
@@ -120,5 +122,19 @@ class PackagesBuilder extends Builder
         return [
             'algo' => $hashAlgorithm, 'hash' => $hash, 'content' => $contents, 'filename' => $filename
         ];
+    }
+    
+    private function sendUpdateRepositoryInformation(array $repository)
+    {
+        $client = new Client();
+        $response = $client->post( getenv('REPOSITORY_UPDATE_PACKAGE_INFO_URI'), [
+            'json' => ['api-key' => getenv('REPOSITORY_API_KEY'), 'repo' => $repository]
+        ]);
+        
+        if($response->getStatusCode() === 200){
+            return true;
+        }
+        
+        return false;
     }
 }
