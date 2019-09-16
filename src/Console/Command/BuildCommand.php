@@ -39,7 +39,7 @@ class BuildCommand extends BaseCommand
             ->setName('build')
             ->setDescription('Builds a composer repository out of a json file')
             ->setDefinition([
-                new InputArgument('file', InputArgument::OPTIONAL, 'Json file to use', getenv('REPOSITORY_CONFIG_FILE_URI') . '?api-key=' . getenv('REPOSITORY_API_KEY')),
+                new InputArgument('file', InputArgument::OPTIONAL, 'Json file to use', getenv('REPOSITORY_CONFIG_FILE_URI') . '?API-TOKEN=' . getenv('REPOSITORY_API_TOKEN')),
                 new InputArgument('output-dir', InputArgument::OPTIONAL, 'Location where to output built files', getenv('REPOSITORY_PACKAGE_FILES_PATH')),
                 new InputArgument('packages', InputArgument::IS_ARRAY | InputArgument::OPTIONAL,
                     'Packages that should be built. If not provided, all packages are built.', null),

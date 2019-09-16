@@ -128,7 +128,10 @@ class PackagesBuilder extends Builder
     {
         $client = new Client();
         $response = $client->post( getenv('REPOSITORY_UPDATE_PACKAGE_INFO_URI'), [
-            'json' => ['api-key' => getenv('REPOSITORY_API_KEY'), 'repo' => $repository]
+            'json' => ['repo' => $repository],
+            'headers' => [
+                'API-TOKEN' => getenv('REPOSITORY_API_TOKEN')
+            ]
         ]);
         
         if($response->getStatusCode() === 200){
